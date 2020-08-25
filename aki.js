@@ -1,20 +1,31 @@
 const { Client, MessageEmbed  } = require("discord.js"),
       {     prefix, token     } = require("./config"),
       {          Aki          } = require("aki-api"),
-      emojis = ["👍", "👎", "❔", "🤔", "🙄"];
+      emojis = ["👍", "👎", "❔", "🤔", "🙄", "❌"],
+      Started = new Set();
 
 new Client({messageCacheMaxSize: 50})
 .on("ready", () => console.log(`Ready!`))
 .on("message", async message => {
 if (message.author.bot || !message.guild) return;
 if (message.content.startsWith(prefix + "start")) {
+if(!Started.has(message.author.id))Started.add(message.author.id);
+else return message.channel.send("**:x: | The game already started..**");
       const aki = new Aki("ar"); // Full languages list at: https://github.com/jgoralcz/aki-api
       await aki.start();
-const msg = await message.channel.send(new MessageEmbed().setColor("RANDOM").setDescription(`**${aki.question}**\n${aki.answers.map((x, i) => `${x} | ${emojis[i]}`).join("\n")}`));
+const msg = await message.channel.send(new MessageEmbed()
+                                       .setTitle(`${message.author.username}, Question ${aki.currentStep + 1}`)
+                                       .setColor("RANDOM")
+                                       .setDescription(`**${aki.question}**\n${aki.answers.map((x, i) => `${x} | ${emojis[i]}`).join("\n")}`));
 for(let emoji of emojis){ await msg.react(emoji); }
 const collector = msg.createReactionCollector((reaction, user) => emojis.includes(reaction.emoji.name) && user.id === message.author.id,{ time: 60000 * 6 });
       collector.on("collect", async (reaction, user) => {
 reaction.users.remove(user).catch(console.error);
+        if(reaction.emoji.name == "❌"){
+          collector.stop();
+          msg.delete({ timeout: 1000 });
+          return;
+        }
 await aki.step(emojis.indexOf(reaction.emoji.name));
 if (aki.progress >= 70 || aki.currentStep >= 78) {
           await aki.win();
@@ -43,6 +54,12 @@ response.author.id == message.author.id, { max: 1, time: 30000, errors: ["time"]
             });
           return;
         }
-         msg.edit(new MessageEmbed().setColor("RANDOM").setDescription(`**${aki.question}**\n${aki.answers.map((x, i) => `${x} | ${emojis[i]}`).join("\n")}`));
+         msg.edit(new MessageEmbed()
+                  .setTitle(`${message.author.username}, Question ${aki.currentStep + 1}`)
+                  .setColor("RANDOM")
+                  .setDescription(`**${aki.question}**\n${aki.answers.map((x, i) => `${x} | ${emojis[i]}`).join("\n")}`));
    });
+  
+  
+collector.on("end",()=> Started.delete(message.author.id));   
 }}).login(token);
