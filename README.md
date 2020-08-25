@@ -1,8 +1,5 @@
-[![ForTheBadge built-with-love](http://ForTheBadge.com/images/badges/built-with-love.svg)](https://GitHub.com/Naereen/)
-
-[![Open Source Love png3](https://badges.frapsoft.com/os/v3/open-source.png?v=103)](https://github.com/ellerbrock/open-source-badges/)
-
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
+[![Discord](https://img.shields.io/discord/591914197219016707.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/zg3HghM)
 # Akinator Bot (Discord bot)
 
 > Akinator Bot is a Discord bot Mini-Game via Reaction buttons built with **[discord.js](https://discord.js.org/)**
@@ -34,3 +31,7 @@ Copy or Rename `config.json.example` to `config.json` and fill out the values:
 ## What's Next ?
 
 Start your game by type: `.start`
+
+
+
+[![ForTheBadge built-with-love](http://ForTheBadge.com/images/badges/built-with-love.svg)](https://GitHub.com/Naereen/)
