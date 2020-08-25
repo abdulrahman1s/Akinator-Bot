@@ -8,7 +8,7 @@ new Client({messageCacheMaxSize: 50})
 .on("message", async message => {
 if (message.author.bot || !message.guild) return;
 if (message.content.startsWith(prefix + "start")) {
-      const aki = new Aki("ar");
+      const aki = new Aki("ar"); // Full languages list at: https://github.com/jgoralcz/aki-api
       await aki.start();
 const msg = await message.channel.send(new MessageEmbed().setColor("RANDOM").setDescription(`**${aki.question}**\n${aki.answers.map((x, i) => `${x} | ${emojis[i]}`).join("\n")}`));
 for(let emoji of emojis){ await msg.react(emoji); }
