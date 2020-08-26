@@ -23,20 +23,18 @@ const msg = await message.channel.createMessage({embed: {
   color: 0x206694,
   description: `**${aki.question}**\n${aki.answers.map((x, i) => `${x} | ${emojis[i]}`).join("\n")}`}});
 
-for(let emoji of emojis){ await msg.addReaction(emoji); }
+for(let emoji of emojis){ 
+      try{ await msg.addReaction(emoji); }
+      catch(e){ console.error(e); }
+}
 const collector = new createReactionCollector(client, msg, (m, emoji, userID) => emojis.includes(emoji.name) && userID === message.author.id,{ time: 60000 * 6 });
       collector.on("collect", async (m, emoji, userID)=> {
       await client.removeMessageReaction(message.channel.id, m.id, emoji.name, userID);        
-        if(emoji.name == "❌"){
-          collector.stop();
-          msg.delete();
-          return;
-        }
+if(emoji.name == "❌")return collector.stop();
 await aki.step(emojis.indexOf(emoji.name));
 if (aki.progress >= 70 || aki.currentStep >= 78) {
           await aki.win();
           collector.stop();
-          msg.delete();
           message.channel.createMessage({embed: { 
             title: "Is this your character?", 
             color: 0x206694,
@@ -63,5 +61,7 @@ if(responses.length){
                        color: 0x206694
          }}); 
       });
-collector.on("end",()=> Started.delete(message.author.id));   
+collector.on("end",()=>{ Started.delete(message.author.id);
+                                 msg.delete().catch(()=>{});
+                       });   
 }}).connect();
