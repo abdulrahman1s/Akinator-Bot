@@ -29,7 +29,7 @@ for(let emoji of emojis){
 }
 const collector = new createReactionCollector(client, msg, (m, emoji, userID) => emojis.includes(emoji.name) && userID === message.author.id,{ time: 60000 * 6 });
       collector.on("collect", async (m, emoji, userID)=> {
-      await client.removeMessageReaction(message.channel.id, m.id, emoji.name, userID);        
+      await client.removeMessageReaction(message.channel.id, m.id, emoji.name, userID).catch(()=> {});       
 if(emoji.name == "❌")return collector.stop();
 await aki.step(emojis.indexOf(emoji.name));
 if (aki.progress >= 70 || aki.currentStep >= 78) {
