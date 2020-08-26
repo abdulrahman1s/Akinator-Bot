@@ -4,6 +4,8 @@
 
 > Akinator Bot is a Discord bot Mini-Game via Reaction buttons built with **[discord.js](https://discord.js.org/)**
 
+> You can found [eris](https://abal.moe/Eris/) version of Akinator Bot at: [Click me](https://github.com/TheMaestro0/Akinator-Bot/tree/master/Eris-version/)
+
 ## Requirements:-
 
 - Discord bot token **[Guide](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot)**
