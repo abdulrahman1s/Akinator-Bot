@@ -17,20 +17,21 @@ const msg = await message.channel.send(new MessageEmbed()
                                        .setTitle(`${message.author.username}, Question ${aki.currentStep + 1}`)
                                        .setColor("RANDOM")
                                        .setDescription(`**${aki.question}**\n${aki.answers.map((x, i) => `${x} | ${emojis[i]}`).join("\n")}`));
-for(let emoji of emojis){ await msg.react(emoji); }
+for(let emoji of emojis){
+      try {
+            await msg.react(emoji);
+      }catch(e){
+            console.error(e);
+      }}
 const collector = msg.createReactionCollector((reaction, user) => emojis.includes(reaction.emoji.name) && user.id === message.author.id,{ time: 60000 * 6 });
       collector.on("collect", async (reaction, user) => {
-reaction.users.remove(user).catch(console.error);
-        if(reaction.emoji.name == "❌"){
-          collector.stop();
-          msg.delete({ timeout: 1000 });
-          return;
-        }
+      reaction.users.remove(user).catch(console.error);
+if(reaction.emoji.name == "❌")return collector.stop();
+
 await aki.step(emojis.indexOf(reaction.emoji.name));
 if (aki.progress >= 70 || aki.currentStep >= 78) {
           await aki.win();
           collector.stop();
-          msg.delete({ timeout: 1000 });
           message.channel.send(new MessageEmbed()
               .setTitle("Is this your character?")
               .setDescription(`**${aki.answers[0].name}**\n${aki.answers[0].description}\nRanking as **#${aki.answers[0].ranking}**\n\n[yes (**y**) / no (**n**)]`)
@@ -61,5 +62,7 @@ response.author.id == message.author.id, { max: 1, time: 30000, errors: ["time"]
    });
   
   
-collector.on("end",()=> Started.delete(message.author.id));   
+collector.on("end",()=>{ Started.delete(message.author.id);
+                         msg.delete({ timeout: 1000 }).catch(()=>{});
+                       });   
 }}).login(token);
