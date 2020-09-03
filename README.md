@@ -1,4 +1,5 @@
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/TheMaestro0/Akinator-Bot.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/TheMaestro0/Akinator-Bot/context:javascript)
 [![Discord](https://img.shields.io/discord/591914197219016707.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/zg3HghM)
 # Akinator Bot (Discord bot)
 
