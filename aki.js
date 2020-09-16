@@ -17,12 +17,7 @@ const msg = await message.channel.send(new MessageEmbed()
                                        .setTitle(`${message.author.username}, Question ${aki.currentStep + 1}`)
                                        .setColor("RANDOM")
                                        .setDescription(`**${aki.question}**\n${aki.answers.map((x, i) => `${x} | ${emojis[i]}`).join("\n")}`));
-for(let emoji of emojis){
-      try {
-            await msg.react(emoji);
-      }catch(e){
-            console.error(e);
-      }}
+for(let emoji of emojis)await msg.react(emoji).catch(console.error);
 const collector = msg.createReactionCollector((reaction, user) => emojis.includes(reaction.emoji.name) && user.id === message.author.id,{ time: 60000 * 6 });
       collector.on("collect", async (reaction, user) => {
       reaction.users.remove(user).catch(console.error);
@@ -37,8 +32,7 @@ if (aki.progress >= 70 || aki.currentStep >= 78) {
               .setDescription(`**${aki.answers[0].name}**\n${aki.answers[0].description}\nRanking as **#${aki.answers[0].ranking}**\n\n[yes (**y**) / no (**n**)]`)
               .setImage(aki.answers[0].absolute_picture_path)
               .setColor("RANDOM"));
-message.channel.awaitMessages(
-response => ["yes","y","no","n"].includes(response.content.trim().toLowerCase()) &&
+message.channel.awaitMessages(response => ["yes","y","no","n"].includes(response.content.trim().toLowerCase()) &&
 response.author.id == message.author.id, { max: 1, time: 30000, errors: ["time"] })
         .then(collected => {
            const content = collected.first().content.trim().toLowerCase();
