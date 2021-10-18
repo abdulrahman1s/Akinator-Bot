@@ -3,6 +3,8 @@
 ## 🧞 Akinator Bot
 Simple discord bot that includes [**Akinator**](https://en.akinator.com) game inside.
 
+![screenshot](https://i.ibb.co/q7bHS7k/image.png)
+
 
 ### 📌 Requirements
 
