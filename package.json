@@ -1,20 +1,22 @@
 {
-  "name": "Akinator-Bot",
-  "version": "1.1.0",
-  "description": "Akinator Bot is a Discord bot Mini-Game via Reaction buttons built with discord.js",
-  "main": "aki.js",
+  "name": "akinator-bot",
+  "version": "1.0.0",
+  "description": "Simple discord bot that includes akinator game!",
+  "main": "index.js",
   "scripts": {
-    "start": "node aki.js"
+    "start": "node index"
+  },
+  "author": {
+    "name": "TheMaestro",
+    "url": "https://github.com/TheMaestro1s"
   },
   "dependencies": {
-    "aki-api": "^5.2.1",
-    "discord.js": "^12.5.1"
+    "aki-api": "^6.0.8",
+    "discord.js": "^13.2.0",
+    "dotenv": "^10.0.0"
   },
   "engines": {
-    "node": "12.x"
-  },
-  "repository": {
-    "url": "https://github.com/TheMaestro0/Akinator-Bot"
+    "node": "16.x"
   },
   "license": "MIT"
 }
