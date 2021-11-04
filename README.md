@@ -1,10 +1,14 @@
-[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/TheMaestro1s/Akinator-Bot.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/TheMaestro1s/Akinator-Bot/context:javascript)
+<h1 align="center">🧞 Akinator Bot</h1>
 
-## 🧞 Akinator Bot
 Simple discord bot that includes [**Akinator**](https://en.akinator.com) game inside.
 
 ![screenshot](https://i.ibb.co/q7bHS7k/image.png)
 
+<details>
+<summary>More then 10+ language supported</summary>
+
+![screenshot](https://i.ibb.co/hYWWnkc/image.png)
+</details>
 
 ### 📌 Requirements
 
