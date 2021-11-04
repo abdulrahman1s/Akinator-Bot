@@ -21,7 +21,7 @@ class Akinator {
         return this.api.currentStep
     }
 
-    get eneded() {
+    get ended() {
         return this.api.progress >= 70 || this.api.currentStep >= 78
     }
 
@@ -30,7 +30,7 @@ class Akinator {
     }
 
     async end() {
-        this.api.win()
+        await this.api.win()
     }
 
     async ask(channel, filter) {
