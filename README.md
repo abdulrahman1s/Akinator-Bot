@@ -38,3 +38,6 @@ npm start
 
 #### ✍️ License
 Refer to the [LICENSE](LICENSE) file.
+
+<!-- START template/donate.md -->
+<!-- END template/donate.md -->
