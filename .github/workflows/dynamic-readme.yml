@@ -1,0 +1,29 @@
+name: Dynamic Template
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  update_templates:
+    name: "Update Templates"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "📥  Fetching Repository Contents"
+        uses: actions/checkout@main
+
+      - name: "💾  Github Repository Metadata"
+        uses: varunsridharan/action-repository-meta@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "💫  Dynamic Template Render"
+        uses: varunsridharan/action-dynamic-readme@main
+        with:
+          GLOBAL_TEMPLATE_REPOSITORY: TheMaestro1s/TheMaestro1s
+          files: |
+            README.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
