@@ -1,22 +1,20 @@
 {
   "name": "akinator-bot",
   "version": "1.0.0",
-  "description": "Simple discord bot that includes akinator game!",
+  "description": "Akinator game but in discord",
   "main": "index.js",
+  "private": true,
   "scripts": {
-    "start": "node index"
+    "start": "node index.js"
   },
-  "author": {
-    "name": "TheMaestro",
-    "url": "https://github.com/TheMaestro1s"
-  },
+  "type": "module",
   "dependencies": {
     "aki-api": "^6.0.8",
-    "discord.js": "^13.2.0",
-    "dotenv": "^10.0.0"
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0"
   },
   "engines": {
-    "node": "16.x"
+    "node": ">=16.9"
   },
   "license": "MIT"
 }

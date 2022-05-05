@@ -1,9 +1,20 @@
-require('dotenv/config') // Load environment variables.
+import 'dotenv/config' // Load environment variables.
+import { createServer } from 'http'
+import { Client, Intents } from 'discord.js'
+import Akinator from './Akinator.js'
 
-const { Client } = require('discord.js')
-const Akinator = require('./Akinator')
+if (!process.env.DISCORD_TOKEN) {
+    console.error('"DISCORD_TOKEN" is required to run the bot.')
+    process.exit()
+}
+
+if (process.env.REPL_ID) { // Repl.it requires the app to listen for incoming requests to run
+    createServer((_, res) => res.end('Pong')).listen(process.env.PORT || '0.0.0.0')
+}
+
+
 const client = new Client({
-    intents: ['GUILDS']
+    intents: [Intents.FLAGS.GUILDS]
 })
 
 // Login to Discord API
@@ -65,10 +76,8 @@ client.on('ready', async () => {
     await client.application.commands.set(commands)
 })
 
-client.on('interactionCreate', async ctx => {
+client.on('interactionCreate', async (ctx) => {
     if (!ctx.isCommand()) return
-
-    // Ignore non exists commands.
     if (ctx.commandName !== 'akinator') return
 
     await ctx.deferReply()
@@ -76,40 +85,28 @@ client.on('interactionCreate', async ctx => {
     const language = ctx.options.getString('language', false) || 'en'
     const game = new Akinator(language)
 
-    // Start The game.
     await game.start()
-
-    // Filter to ignore non-playing users.
-    const filter = intercation => intercation.user.id === ctx.user.id
-
     await ctx.editReply({
-        components: [game.toComponent()],
-        embeds: [game.toEmbed()]
+        components: [game.component],
+        embeds: [game.embed]
     })
 
+    // To Ignore non-playing users.
+    const filter = intercation => intercation.user.id === ctx.user.id
     const channel = await client.channels.fetch(ctx.channelId)
 
-    while (!game.ended) { // Game loop, only stops once the game ended.
-        try { // Trying to catch game errors without break the while bot.
-            await game.ask(channel, filter)
-            await ctx.editReply({ embeds: [game.toEmbed()], components: [game.toComponent()] })
-        } catch (e) { // Only happens while the 30 seconds ends without response. 
-            // Log errors.
-            if (e instanceof Error) console.error(e)
-
-            await ctx.editReply({
-                components: [],
-                embeds: [],
-                content: 'Timeout.'
-            })
-
-            return // Stop The Game
-        }
+    while (!game.ended) try {
+        await game.ask(channel, filter) // will throw an error if did not reply within 30 seconds
+        if (!game.ended) await ctx.editReply({ embeds: [game.embed], components: [game.component] })
+    } catch (err) {
+        if (err instanceof Error) console.error(err)
+        return await ctx.editReply({
+            components: [],
+            embeds: [],
+            content: 'Timeout.'
+        })
     }
 
-    // End the game.
-    await game.end()
-
-    // Remove buttons, And put the final embed.
-    await ctx.editReply({ components: [], embeds: [game.toEmbed()] })
+    await game.stop()
+    await ctx.editReply({ components: [], embeds: [game.embed] })
 })

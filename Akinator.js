@@ -1,5 +1,5 @@
-const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js')
-const { Aki } = require('aki-api')
+import { MessageEmbed, MessageActionRow, MessageButton } from 'discord.js'
+import { Aki } from 'aki-api'
 
 const emojis = ['👍', '👎', '❔', '🤔', '🙄', '❌']
 
@@ -29,7 +29,7 @@ class Akinator {
         await this.api.start()
     }
 
-    async end() {
+    async stop() {
         await this.api.win()
     }
 
@@ -56,7 +56,7 @@ class Akinator {
         })
     }
 
-    toEmbed() {
+    get embed() {
         if (this.ended) {
             const someone = this.answers[0]
             return new MessageEmbed()
@@ -69,10 +69,10 @@ class Akinator {
         return new MessageEmbed()
             .setTitle(`${this.score + 1}. ${this.question}`)
             .setColor('RANDOM')
-            .setFooter('You have 30 seconds to answer.')
+            .setFooter({ text: 'You have 30 seconds to answer.' })
     }
 
-    toComponent() {
+    get component() {
         const row = new MessageActionRow()
 
         const buttons = this.answers.map((answer, index) => {
@@ -89,5 +89,4 @@ class Akinator {
     }
 }
 
-
-module.exports = Akinator
+export default Akinator
