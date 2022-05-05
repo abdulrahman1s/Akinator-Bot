@@ -16,11 +16,11 @@
 - Node.js v16.9.0 or newer
 - Git (Optional)
 
-### Easy deploy
+### 🚀 Easy deploy
 
 [![Run on Repl.it](https://replit.com/badge/github/abdulrahman1s/Akinator-Bot)](https://repl.it/github/abdulrahman1s/Akinator-Bot)
 
-### 🚀 Setup
+### 🛠️ Setup
 
 1. Clone the repo (or Download the [zip](https://github.com/abdulrahman1s/Akinator-Bot/archive/refs/heads/master.zip) file instead)
 ```bash
