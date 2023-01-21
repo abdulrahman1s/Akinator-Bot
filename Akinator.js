@@ -1,4 +1,4 @@
-import { MessageEmbed, MessageActionRow, MessageButton } from 'discord.js'
+import { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js'
 import { Aki } from 'aki-api'
 
 const emojis = ['👍', '👎', '❔', '🤔', '🙄', '❌']
@@ -25,19 +25,24 @@ class Akinator {
         return this.api.progress >= 70 || this.api.currentStep >= 78
     }
 
-    async start() {
-        await this.api.start()
+    start() {
+        return this.api.start()
     }
 
-    async stop() {
-        await this.api.win()
+    stop() {
+        return this.api.win()
     }
 
-    async ask(channel, filter) {
-        const collector = channel.createMessageComponentCollector({ filter, time: 30_000 })
+    /**
+     * 
+     * @param {import("discord.js").TextChannel} channel 
+     */
+    ask(channel, filter) {
         return new Promise((resolve, reject) => {
+            const collector = channel.createMessageComponentCollector({ filter, time: 30_000 })
+
             collector
-                .on('collect', async ctx => {
+                .on('collect', async (ctx) => {
                     await ctx.deferUpdate()
 
                     const answer = Number(ctx.customId)
@@ -59,31 +64,39 @@ class Akinator {
     get embed() {
         if (this.ended) {
             const someone = this.answers[0]
-            return new MessageEmbed()
+            return new EmbedBuilder()
                 .setTitle('Is this your character?')
                 .setDescription(`**${someone.name}**\n${someone.description}\nRanking as **#${someone.ranking}**`)
                 .setImage(someone.absolute_picture_path)
-                .setColor('RANDOM')
+                .setColor('Random')
         }
 
-        return new MessageEmbed()
+        return new EmbedBuilder()
             .setTitle(`${this.score + 1}. ${this.question}`)
-            .setColor('RANDOM')
+            .setColor('Random')
             .setFooter({ text: 'You have 30 seconds to answer.' })
     }
 
     get component() {
-        const row = new MessageActionRow()
+        const row = new ActionRowBuilder()
 
-        const buttons = this.answers.map((answer, index) => {
-            return new MessageButton()
+        if (this.ended) row.addComponents(
+            new ButtonBuilder()
+                .setLabel('Yes')
+                .setStyle(ButtonStyle.Primary)
+                .setCustomId('yes'),
+            new ButtonBuilder()
+                .setLabel('No')
+                .setStyle(ButtonStyle.Danger)
+                .setCustomId('no')
+        )
+        else row.addComponents(this.answers.map((answer, index) => {
+            return new ButtonBuilder()
                 .setEmoji(emojis[index])
                 .setLabel(answer)
-                .setStyle('PRIMARY')
+                .setStyle(ButtonStyle.Primary)
                 .setCustomId(index.toString())
-        })
-
-        row.addComponents(buttons)
+        }))
 
         return row
     }
