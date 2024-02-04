@@ -9,12 +9,12 @@
   },
   "type": "module",
   "dependencies": {
-    "aki-api": "^6.0.8",
-    "discord.js": "^14.7.1",
-    "dotenv": "^16.0.3"
+    "aki-api": "^6.0.9",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.1"
   },
   "engines": {
-    "node": ">=16.9"
+    "node": ">=16.11"
   },
   "license": "MIT"
 }
